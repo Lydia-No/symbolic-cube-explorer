@@ -1,2 +1,4 @@
-from .core import CubeGraph, SymbolicWalker
-from .visualization import plot_cube_walk
+__version__ = "0.1.0"
+
+from .core import run_symbol_sequence
+from .hypercube import Hypercube

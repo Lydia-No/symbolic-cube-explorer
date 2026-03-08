@@ -1,13 +1,18 @@
-MOTHER_OPERATORS = {
-    "א": 0,  # Aleph
-    "מ": 1,  # Mem
-    "ש": 2,  # Shin
-}
+from __future__ import annotations
 
+from .base import GrammarMeta, MappingGrammar
 
-def apply_sefer_symbol(state, symbol):
-    if symbol not in MOTHER_OPERATORS:
-        raise ValueError(f"Unknown Sefer symbol: {symbol}")
+# Mother letters as axes (minimal, deterministic, testable)
+# א -> X (bit0), מ -> Y (bit1), ש -> Z (bit2)
+SYMBOL_TO_AXIS = {"א": 0, "מ": 1, "ש": 2}
 
-    bit = MOTHER_OPERATORS[symbol]
-    return state ^ (1 << bit)
+GRAMMAR = MappingGrammar(
+    meta=GrammarMeta(
+        name="sefer",
+        display_name="Sefer (Hebrew Mothers → Axes)",
+        description="Operational mapping: mother letters toggle cube axes (Q3).",
+        version="0.1.0",
+    ),
+    symbol_to_axis=SYMBOL_TO_AXIS,
+    dims=3,
+)

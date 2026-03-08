@@ -1,95 +1,66 @@
-from .grammar import simple_letters
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass
+from typing import List, Sequence, Tuple
+
+from .grammars.base import BaseGrammar
 from .utils import score_sequence
 
 
+@dataclass(frozen=True)
 class CubeGraph:
+    """
+    Q3 hypercube on vertices 0..7.
+    Neighbor along axis k is v ^ (1 << k).
+    """
+    dims: int = 3
 
-    def __init__(self):
-
-        self.vertex_neighbors = {
-
-            0:[1,2,4],
-            1:[0,3,5],
-            2:[0,3,6],
-            3:[1,2,7],
-            4:[0,5,6],
-            5:[1,4,7],
-            6:[2,4,7],
-            7:[3,5,6]
-
-        }
-
-        edges = [
-
-            (0,1),(0,2),(0,4),
-            (1,3),(1,5),
-            (2,3),(2,6),
-            (3,7),
-            (4,5),(4,6),
-            (5,7),
-            (6,7)
-
-        ]
-
-        self.edge_letters = {}
-
-        for e,l in zip(edges,simple_letters):
-            self.edge_letters[tuple(sorted(e))] = l
+    def neighbors(self, v: int) -> List[int]:
+        return [v ^ (1 << k) for k in range(self.dims)]
 
 
-    def edge_letter(self,v1,v2):
-
-        return self.edge_letters[tuple(sorted((v1,v2)))]
-
-
-class SymbolicWalker:
-
-    def __init__(self,cube):
-
-        self.cube = cube
+def concept_seed(concept: str, *, dims: int = 3) -> int:
+    h = hashlib.sha256(concept.encode("utf-8")).digest()
+    return h[0] % (1 << dims)
 
 
-    def concept_seed(self,word):
+def execute_sequence(
+    *,
+    start: int,
+    symbols: Sequence[str],
+    grammar: BaseGrammar,
+) -> Tuple[List[int], List[str], int]:
+    """
+    Core state engine:
+      - validates with grammar
+      - applies symbol-to-state transitions
+      - returns (path, symbols, score)
 
-        return sum(ord(c) for c in word) % 8
+    This is independent of which grammar you're using.
+    """
+    grammar.validate_sequence(symbols)
 
-
-    def walk(self,start,steps=6):
-
-        current = start
-        path = [current]
-        seq = []
-
-        for i in range(steps):
-
-            neighbors = self.cube.vertex_neighbors[current]
-            nxt = neighbors[i % 3]
-
-            letter = self.cube.edge_letter(current,nxt)
-
-            seq.append(letter)
-
-            current = nxt
-            path.append(current)
-
-        return path,seq
-
-
-    def run_concept(self,concept):
-
-        start = self.concept_seed(concept)
-
-        path,seq = self.walk(start)
-
-        score = score_sequence(seq)
-
-        return start,path,seq,score
-def run_symbol_sequence(start_state, sequence, apply_symbol):
-    state = start_state
-    path = [state]
-
-    for symbol in sequence:
-        state = apply_symbol(state, symbol)
+    state = start
+    path: List[int] = [state]
+    for s in symbols:
+        state = grammar.apply_symbol(state, s)
         path.append(state)
 
-    return path
+    score = score_sequence(list(symbols))
+    return path, list(symbols), score
+
+
+@dataclass
+class SymbolicWalker:
+    """
+    Convenience wrapper around CubeGraph + grammar.
+    Keeps API close to your existing code, but defers meaning to grammar plugins.
+    """
+    cube: CubeGraph
+    grammar: BaseGrammar
+
+    def run_concept(self, concept: str, *, symbols: Sequence[str]) -> Tuple[int, List[int], List[str], int]:
+        start = concept_seed(concept, dims=self.cube.dims)
+        path, seq, score = execute_sequence(start=start, symbols=symbols, grammar=self.grammar)
+        return start, path, seq, score
