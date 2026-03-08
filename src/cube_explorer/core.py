@@ -84,3 +84,12 @@ class SymbolicWalker:
         score = score_sequence(seq)
 
         return start,path,seq,score
+def run_symbol_sequence(start_state, sequence, apply_symbol):
+    state = start_state
+    path = [state]
+
+    for symbol in sequence:
+        state = apply_symbol(state, symbol)
+        path.append(state)
+
+    return path
