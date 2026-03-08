@@ -3,6 +3,7 @@ pyproject.toml
 src/cube_explorer/__init__.py
 src/cube_explorer/__main__.py
 src/cube_explorer/analysis.py
+src/cube_explorer/attractors.py
 src/cube_explorer/core.py
 src/cube_explorer/grammar.py
 src/cube_explorer/hypercube.py
