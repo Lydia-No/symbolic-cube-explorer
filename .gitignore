@@ -1,27 +1,8 @@
-__pycache__/
-*.pyc
 .venv/
-docs/*.gif
-
-__pycache__/
-*.pyc
-.venv/# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.egg-info/
-
-# Virtual environments
-.venv/
-venv/
-
-# Build
 dist/
 build/
-
-# OS
-.DS_Store
-
-# Backups
-*.bak
