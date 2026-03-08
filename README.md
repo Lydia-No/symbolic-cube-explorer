@@ -1,85 +1,27 @@
-# Symbolic Cube Explorer
+## Symbolic Cube Explorer — Concept Note
 
-Symbolic Cube Explorer is a small experimental framework for studying symbolic
-systems as trajectories through a geometric state space.## Installation
+### Overview
+Symbolic Cube Explorer is a compact research framework for studying **symbolic structure as executable dynamics**. Instead of treating symbols as static tokens, the system treats them as **operators** that act on a **finite geometric state space**. A symbol sequence is executed as a walk on the graph, producing trajectories that can be inspected, compared, and scored.
 
-```bash
-git clone https://github.com/Lydia-No/symbolic-cube-explorer.git
-cd symbolic-cube-explorer
+### Core hypothesis
+A symbol is defined by what it **does** to a system state.
 
-python3 -m venv .venv
-source .venv/bin/activate
+Under this view, the “content” of a sequence is not primarily semantic reference or statistical association. It is the **structure induced by repeated state transitions**: loops, closures, symmetries, recurrences, and motifs that emerge from the topology and the operator mapping.
 
-pip install -e .
-```
-Instead of treating symbols as static tokens, this project treats them as
-operations acting on the vertices of a cube graph.
+### The geometric substrate: Q₃
+The base environment is the **3-dimensional hypercube graph (Q₃)**: 8 vertices, 12 edges, and degree 3 per vertex. Each vertex corresponds to a 3-bit state (000–111). Each edge traversal flips exactly one bit, making every step a **minimal discrete change**. Because Q₃ is small and fully enumerable, it supports systematic exploration of trajectory classes and attractor-like behavior.
 
-A sequence of operations therefore becomes a path through the cube.
+### Symbolic grammar as operator classes
+The system uses a tiered grammar inspired by the **3-7-12** letter taxonomy, reinterpreted operationally:
 
-Concept → seed vertex → cube trajectory → symbolic sequence → structure score
+- **Mother letters**: axis/dimension toggles (bit flips)
+- **Double letters**: cube reorientations (rotations / symmetry actions)
+- **Simple letters**: labeled edge traversals (12 edges → 12 letters)
 
-The project was inspired by historical combinatorial traditions such as
-Sefer Yetzirah, which describes letters acting as generative operations,
-and by modern ideas in symbolic dynamics and graph-based computation.
+This creates a symbolic control language with both **local moves** (edge steps) and **global transforms** (reorientation), allowing sequences to act like small programs over a structured space.
 
-## Features
+### Execution pipeline: concept → seed → walk → features
+A concept (text) can seed the system by mapping deterministically to a start vertex (e.g., hash/mod 8). From that seed, a walker generates a path on Q₃, emitting a symbol sequence via edge labels. The sequence is then evaluated using lightweight, transparent pattern detectors (e.g., repetition, closure, symmetry), designed to be extendable as metrics evolve.
 
-- hypercube state space
-- symbolic grammar layer
-- trajectory scoring
-- 3-D visualization using Plotly
-
-## Installation
-
-
-git clone https://github.com/Lydia-No/symbolic-cube-explorer.git
-
-cd symbolic-cube-explorer
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-pip install -e .
-
-## Run Examples
-
-```bash
-python examples/sefer_walk.py
-python examples/rune_walk.py
-python examples/enochian_walk.py
-```
-## Example
-
-Run the concept atlas experiment:
-
-
-python examples/concept_atlas.py
-
-
-This maps concepts to cube trajectories and generates symbolic sequences.
-
-## Project Structure
-
-src/cube_explorer/core.py  
-cube dynamics
-
-src/cube_explorer/grammar.py  
-symbolic mapping layer
-
-src/cube_explorer/utils.py  
-helpers and hashing
-
-src/cube_explorer/visualization.py  
-trajectory visualization
-
-examples/concept_atlas.py  
-example experiment
-
-Save with Ctrl+O, then Enter, then Ctrl+X.
-
-Then commit it:
-
-git add README.md
-git commit -m "add project documentation"
-git push
+### Why this matters
+Symbolic Cube Explorer is not a language model. It is a **laboratory** for a different question: *what symbolic regularities emerge when symbols are operational and the state space is geometric and fully inspectable?* The project’s value is in its clarity: small topology, explicit operators, measurable outcomes, and visualizable trajectories—supporting both computational experimentation and conceptual exploration. Natural extensions include richer symmetry groups, higher-dimensional hypercubes, and stronger trajectory metrics while keeping the semantics operational rather than purely statistical.
