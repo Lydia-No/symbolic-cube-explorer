@@ -8,7 +8,10 @@ version = "0.1.0"
 description = "Symbolic dynamical system on a hypercube"
 authors = [{name="Linda Thorstensen"}]
 requires-python = ">=3.9"
-dependencies = ["numpy","plotly"]
+dependencies = ["numpy", "plotly"]
+
+[project.scripts]
+cube-explorer = "cube_explorer.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

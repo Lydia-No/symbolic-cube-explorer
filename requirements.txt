@@ -3,4 +3,4 @@ networkx==3.6.1
 numpy==2.4.2
 packaging==26.0
 plotly==6.6.0
--e git+ssh://git@github.com/Lydia-No/symbolic-cube-explorer.git@e95daf32eb13a43b4c25f0b3568caee4c05c567e#egg=symbolic_cube_explorer
+-e git+ssh://git@github.com/Lydia-No/symbolic-cube-explorer.git@9f1f624262f3a830f78f7ec3d5d1d6b05a1dbd7b#egg=symbolic_cube_explorer
