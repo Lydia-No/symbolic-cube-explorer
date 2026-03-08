@@ -1,5 +1,10 @@
 __pycache__/
 *.pyc
+.venv/
+docs/*.gif
+
+__pycache__/
+*.pyc
 .venv/# Python
 __pycache__/
 *.pyc
