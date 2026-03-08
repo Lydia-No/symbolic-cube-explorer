@@ -1,14 +1,16 @@
-import random
+from cube_explorer.hypercube import Hypercube
 
-from cube_explorer.core import run_symbol_sequence
-from cube_explorer.grammars.sefer import apply_sefer_symbol
 
-symbols = ["א","מ","ש"]
+def main():
 
-sequence = [random.choice(symbols) for _ in range(50)]
+    cube = Hypercube(4)
 
-path = run_symbol_sequence(0, sequence, apply_sefer_symbol)
+    seq = cube.random_walk(50)
 
-print("Sequence:", sequence)
-print("Path:", path)
-print("Unique states visited:", len(set(path)))
+    print("Random walk symbolic sequence:\n")
+
+    print(" ".join(seq))
+
+
+if __name__ == "__main__":
+    main()
