@@ -1,8 +1,17 @@
 # Symbolic Cube Explorer
 
 Symbolic Cube Explorer is a small experimental framework for studying symbolic
-systems as trajectories through a geometric state space.
+systems as trajectories through a geometric state space.## Installation
 
+```bash
+git clone https://github.com/Lydia-No/symbolic-cube-explorer.git
+cd symbolic-cube-explorer
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -e .
+```
 Instead of treating symbols as static tokens, this project treats them as
 operations acting on the vertices of a cube graph.
 
@@ -33,7 +42,13 @@ source .venv/bin/activate
 
 pip install -e .
 
+## Run Examples
 
+```bash
+python examples/sefer_walk.py
+python examples/rune_walk.py
+python examples/enochian_walk.py
+```
 ## Example
 
 Run the concept atlas experiment:
