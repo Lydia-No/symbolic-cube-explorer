@@ -1,63 +1,31 @@
-class Hypercube:
-    """
-    Generic N-dimensional hypercube state space.
-    """
-
-    def __init__(self, dimension):
-        self.dimension = dimension
-        self.states = 2 ** dimension
-
-    def apply_axis_flip(self, state, axis):
-        return state ^ (1 << axis)
-
-    def neighbors(self, state):
-        return [
-            self.apply_axis_flip(state, axis)
-            for axis in range(self.dimension)
-        ]
 import random
 
 
 class Hypercube:
-
-    def __init__(self, dim):
+    def __init__(self, dim: int):
         self.dim = dim
-        self.vertices = 2 ** dim
 
-    def neighbors(self, v):
-        """
-        Return vertices reachable by flipping one bit.
-        """
-        result = []
+    def random_vertex(self) -> list[int]:
+        return [random.randint(0, 1) for _ in range(self.dim)]
 
-        for i in range(self.dim):
-            result.append(v ^ (1 << i))
+    def step(self, vertex: list[int]) -> tuple[list[int], int]:
+        i = random.randrange(self.dim)
+        new_vertex = vertex.copy()
+        new_vertex[i] = 1 - new_vertex[i]
+        return new_vertex, i
 
-        return result
+    def random_walk(self, steps: int) -> list[str]:
+        _, symbols = self.walk_with_path(steps)
+        return symbols
 
-    def random_walk(self, steps=1000):
-        """
-        Perform a random walk and emit symbolic sequence
-        based on which dimension flipped.
-        """
-
-        position = 0
-        sequence = []
+    def walk_with_path(self, steps: int) -> tuple[list[list[int]], list[str]]:
+        vertex = self.random_vertex()
+        path = [vertex.copy()]
+        symbols: list[str] = []
 
         for _ in range(steps):
+            vertex, dim = self.step(vertex)
+            path.append(vertex.copy())
+            symbols.append(chr(ord("A") + dim))
 
-            neighbors = self.neighbors(position)
-
-            next_v = random.choice(neighbors)
-
-            diff = position ^ next_v
-
-            dimension = diff.bit_length() - 1
-
-            symbol = chr(65 + dimension)
-
-            sequence.append(symbol)
-
-            position = next_v
-
-        return sequence
+        return path, symbols
