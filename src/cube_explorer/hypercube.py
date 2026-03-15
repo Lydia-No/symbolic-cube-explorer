@@ -1,31 +1,41 @@
 import random
+import string
 
 
 class Hypercube:
+    """
+    Fast hypercube walker using integer bit operations.
+    Vertices are integers in [0, 2^dim).
+    """
+
     def __init__(self, dim: int):
+
+        if dim < 1:
+            raise ValueError("Dimension must be >= 1")
+
         self.dim = dim
+        self.symbols = list(string.ascii_uppercase[:dim])
 
-    def random_vertex(self) -> list[int]:
-        return [random.randint(0, 1) for _ in range(self.dim)]
+    def random_walk(self, steps: int, return_vertices=False):
+        """
+        Generate symbolic sequence from hypercube walk.
+        """
 
-    def step(self, vertex: list[int]) -> tuple[list[int], int]:
-        i = random.randrange(self.dim)
-        new_vertex = vertex.copy()
-        new_vertex[i] = 1 - new_vertex[i]
-        return new_vertex, i
+        vertex = random.randrange(1 << self.dim)
 
-    def random_walk(self, steps: int) -> list[str]:
-        _, symbols = self.walk_with_path(steps)
-        return symbols
-
-    def walk_with_path(self, steps: int) -> tuple[list[list[int]], list[str]]:
-        vertex = self.random_vertex()
-        path = [vertex.copy()]
-        symbols: list[str] = []
+        seq = []
+        vertices = [vertex]
 
         for _ in range(steps):
-            vertex, dim = self.step(vertex)
-            path.append(vertex.copy())
-            symbols.append(chr(ord("A") + dim))
 
-        return path, symbols
+            d = random.randrange(self.dim)
+
+            vertex ^= 1 << d
+
+            seq.append(self.symbols[d])
+            vertices.append(vertex)
+
+        if return_vertices:
+            return seq, vertices
+
+        return seq
