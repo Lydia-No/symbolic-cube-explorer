@@ -62,10 +62,10 @@ class MappingGrammar:
         bad = [s for s in sequence if s not in self._symbol_to_axis]
         if bad:
             known = sorted(self._symbol_to_axis.keys())
-        raise ValueError(
-            f"Invalid symbols for {self._meta.name}: {sorted(set(bad))}. "
-            f"Known({len(known)}): {known}"
-        )
+            raise ValueError(
+                f"Invalid symbols for {self._meta.name}: {sorted(set(bad))}. "
+                f"Known({len(known)}): {known}"
+            )
 
     def apply_symbol(self, state: int, symbol: str) -> int:
         axis = self._symbol_to_axis[symbol]
