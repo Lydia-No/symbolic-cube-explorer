@@ -177,3 +177,6 @@ Create a Python virtual environment:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+## License
+
+This repository is governed by the terms stated in `LICENSE`.
