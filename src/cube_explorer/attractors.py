@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+__all__ = ["find_symbol_cycles"]
+
 
 def find_symbol_cycles(sequence, min_length=2, max_length=10):
     """
@@ -10,13 +12,10 @@ def find_symbol_cycles(sequence, min_length=2, max_length=10):
     n = len(sequence)
 
     for L in range(min_length, max_length + 1):
-
         for i in range(n - L):
-
             window = tuple(sequence[i:i + L])
 
             for j in range(i + L, n - L):
-
                 if sequence[j:j + L] == list(window):
                     cycles[window] += 1
                     break
@@ -27,7 +26,7 @@ def find_symbol_cycles(sequence, min_length=2, max_length=10):
         results.append({
             "cycle": "".join(cycle),
             "length": len(cycle),
-            "occurrences": count
+            "occurrences": count,
         })
 
     results.sort(key=lambda x: -x["occurrences"])
