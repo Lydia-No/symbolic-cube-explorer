@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "symbolic-cube-explorer"
+version = "0.1.0"
+description = "Symbolic dynamical system on a hypercube"
+authors = [{ name = "Linda Thorstensen" }]
+requires-python = ">=3.9"
+dependencies = ["numpy", "plotly"]
+
+[project.scripts]
+mirrorwalk = "cube_explorer.mirrorwalk.cli:main"
+cube-explorer = "cube_explorer.__main__:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

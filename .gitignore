@@ -1,0 +1,44 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# === security / secrets (never commit) ===
+.env
+.env.*
+.Renviron
+.streamlit/secrets.toml
+.streamlit/credentials.toml
+
+# === python ===
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# === R ===
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# === node ===
+node_modules/
+
+# === editor / OS ===
+.DS_Store
+.vscode/
+.idea/
+
+
+__pycache__/
+*.pyc
+runs/
+README.before-canonical.bak.*
